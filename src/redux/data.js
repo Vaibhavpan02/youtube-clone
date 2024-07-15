@@ -4,7 +4,7 @@ import { API_KEY } from "../key/key";
 export const youtubeApi = createApi({
   reducerPath: "youtubeApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://youtube-v31.p.rapidapi.com", //added base url
+    baseUrl: "https://youtube-v31.p.rapidapi.com",
     prepareHeaders: (headers) => {
       headers.set("X-RapidAPI-Key", API_KEY);
       return headers;
@@ -14,48 +14,49 @@ export const youtubeApi = createApi({
     // for feed
     getFeed: builder.query({
       query: () => ({
-        url: "/search?relatedToVideoId=O62kAvoO9lM&part=id%2Csnippet&type=video&maxResults=50",
+        url: `/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=IN`,
       }),
     }),
 
     // for explore
     getExplore: builder.query({
       query: () => ({
-        url: `/search?relatedToVideoId=lY2yjAdbvdQ&part=id%2Csnippet&type=video&maxResults=50`,
+        url: `/search?part=snippet&type=video&maxResults=50&regionCode=IN`,
       }),
     }),
 
     // for explore items
     getSearch: builder.query({
       query: (q) => ({
-        url: `/search?q=${q}&part=snippet%2Cid&maxResults=50`, // this should take only one argument
+        url: `/search?q=${q}&part=snippet%2Cid&maxResults=50&regionCode=IN`,
       }),
     }),
 
     // for channel details
     getChannelDetails: builder.query({
       query: (id) => ({
-        url: `channels?part=snippet%2Cstatistics&id=${id}`, // this should take only one argument
+        url: `channels?part=snippet%2Cstatistics&id=${id}`,
       }),
     }),
 
     // for channel videos to add on channel detail
     getChannelVideos: builder.query({
       query: (id) => ({
-        url: `search?channelId=${id}&part=snippet%2Cid&maxResults=50`, // this should take only one argument
+        url: `search?channelId=${id}&part=snippet%2Cid&maxResults=50&regionCode=IN`,
       }),
     }),
 
     // for video details
     getVideoDetails: builder.query({
       query: (id) => ({
-        url: `/videos?part=contentDetails%2Csnippet%2Cstatistics&id=${id}`, // this should take only one argument
+        url: `/videos?part=contentDetails%2Csnippet%2Cstatistics&id=${id}`,
       }),
     }),
 
-      getRelatedVideos: builder.query({
+    // for related videos
+    getRelatedVideos: builder.query({
       query: (id) => ({
-        url: `/search?relatedToVideoId=${id}&part=id%2Csnippet&type=video&maxResults=50`,
+        url: `/search?relatedToVideoId=${id}&part=id%2Csnippet&type=video&maxResults=50&regionCode=IN`,
       }),
     }),
   }),
@@ -68,5 +69,5 @@ export const {
   useGetVideoDetailsQuery,
   useGetChannelDetailsQuery,
   useGetChannelVideosQuery,
-  useGetRelatedVideosQuery
+  useGetRelatedVideosQuery,
 } = youtubeApi;
